@@ -1,27 +1,34 @@
 import type { ButtonHTMLAttributes, FC } from "react";
 
+type TButton = "default" | "border" | "dark";
 
-type TButton = "default"|"border"|"dark"
-
-interface Props extends ButtonHTMLAttributes<HTMLButtonElement>{
-    mode?:TButton
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+  mode?: TButton;
 }
-export const Button:FC<Props> = function Button(props){
-    const {mode = "default",...rest}=props
 
-    let bgButton = "bg-blue-400"
-    let textColor = "text-white"
-    if(mode == "dark"){
-        bgButton = "bg-gray-800"
-    }else if(mode == "border"){
-        bgButton = "border bg-white border-gray-400"
-        textColor = "text-gray-800"
-    }
+export const Button: FC<Props> = ({
+  mode = "default",
+  className = "",
+  children,
+  ...rest
+}) => {
+  let base = "rounded-md py-2 font-semibold transition active:scale-95"
+  let bg = "bg-blue-400 text-white"
 
-    return <button
-    {...rest}
-    className = {`rounded pb-2 pt-2 w-60 h-40 m-11  ${bgButton} ${rest.className}`}
+  if (mode === "dark") {
+    bg = "bg-slate-800 text-white hover:bg-slate-700"
+  }
+
+  if (mode === "border") {
+    bg = "border border-gray-400 bg-white text-gray-800 hover:bg-gray-100"
+  }
+
+  return (
+    <button
+      {...rest}
+      className={`${base} ${bg} ${className}`}
     >
-        <p className={`font-semibold ${textColor}`}>Тап тап</p>
+      {children}
     </button>
-}
+  );
+};

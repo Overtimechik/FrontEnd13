@@ -1,14 +1,26 @@
-import { useState, type FC } from 'react'
-import { Button } from './share/Button'
+import { useState, type FC } from "react"
+import { BasketCards } from "./components/BasketCard"
 
+const data = ["cola", "pepsi", "fanta"]
 
-const App:FC = function App() {
-const [count, setCount] = useState(0)
+const App: FC = () => {
+  const [total, setTotal] = useState(0)
 
-  return (<>
-    <Button mode='border' onClick={() => setCount((count) => count + 1)}/>
-      <h1 className='pl-10'>{count}</h1>
-  </>
+  return (
+    <>
+      <h1 className="text-xl">Всего товаров: {total}</h1>
+
+      <ul>
+        {data.map(item => (
+          <BasketCards
+            key={item}
+            title={item}
+            onPlus={() => setTotal(t => t + 1)}
+            onMinus={() => setTotal(t => Math.max(0, t - 1))}
+          />
+        ))}
+      </ul>
+    </>
   )
 }
 
